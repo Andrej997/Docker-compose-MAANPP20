@@ -1,0 +1,125 @@
+<div id="container" class="down" style="margin-left: 15px; margin-right: 15px; margin-top: 15px;" *ngIf="!loading">
+    <div class="alert alert-info down" role="alert"
+         *ngIf='!this.authenticationService.currentUserValue'>
+        To se the prise, you need to <a routerLink="/log-in"><b><u>login</u></b></a>
+        or <a routerLink="/sign-in"><b><u>register</u></b></a>!
+    </div>
+    <div class="alert alert-info down" role="alert" *ngIf="!loading">
+        Click on a <b>company name</b> to se the profile of that company or click <b><a routerLink="/avio-companies"><u>here</u></a></b> to see all companies!<br/>
+        To <b>search</b> fligths click <a data-toggle="collapse" href="#collapseSeach"><b><u>here</u></b></a>!<br/>
+        To <b>filter</b> fligths click <a data-toggle="collapse" href="#collapseFilter"><b><u>here</u></b></a>!
+    </div>
+    <div class="container collapse border border-secondary rounded mb-3" id="collapseSeach">
+        <app-search-flight></app-search-flight>
+    </div>
+    <div class="container collapse border border-secondary rounded mb-3" id="collapseFilter">
+        <app-filter-flight></app-filter-flight>
+    </div>
+</div>
+
+<app-my-spinner *ngIf="loading"></app-my-spinner>
+
+<div class="container down" *ngIf="!loading">
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+        <b>{{errorText}}</b>
+    </div>
+  <div class="row card-group" >
+    <div class="col-sm-4" *ngFor="let flight of allFlights" ><!--[@myTrigger]='state'-->
+        <div class="card" style="margin-bottom: 30px;">
+            <div *ngIf='this.authenticationService.currentUserValue; then thenBlock1 else elseBlock1'></div>
+            <ng-template #thenBlock1> <!-- ako je user ulogovan, on ima pravo da udje na profil leta-->
+                <img [src]="flight.destImg" class="card-img-top" alt="..." 
+                    data-toggle="tooltip" 
+                    data-placement="right" title="details..."
+                    style="cursor:pointer;"
+                    routerLink="/flights/{{flight.id}}/flightdetails">
+            </ng-template>
+            <ng-template #elseBlock1>
+                <img [src]="flight.destImg" class="card-img-top" alt="..." >
+            </ng-template>
+            
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <img src={{flight.logo}} height="40" width="40">
+                    </div>
+                    <a class="card-title ml-1" routerLink="/avio-companies/{{flight.idCompany}}/details">
+                        <b style="font-size:xx-large">{{ flight.company }}</b>
+                    </a>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" data-toggle="tooltip" 
+                        data-placement="right" title="from">
+                    <img src="\assets\img\destination.jpg" height="40" width="40">
+                    {{ flight.from.city }}, {{ flight.from.country }}
+                </li>
+                <li class="list-group-item" data-toggle="tooltip" 
+                        data-placement="right" title="flight date">
+                    <img src="\assets\img\calendar.png" height="40" width="40">
+                    {{ flight.datumPolaska }}
+                </li>
+                <li class="list-group-item" data-toggle="tooltip" 
+                        data-placement="right" title="to">
+                    <img src="\assets\img\destination.jpg" height="40" width="40">
+                    {{ flight.to.city }}, {{ flight.to.country }}
+                </li>
+                <li class="list-group-item" data-toggle="tooltip" 
+                        data-placement="right" title="landing date">
+                    <img src="\assets\img\calendar.png" height="40" width="40">
+                    {{ flight.datumSletanja }}
+                </li>
+                <li class="list-group-item" 
+                        data-toggle="tooltip" 
+                        data-placement="right" title="prise" 
+                        *ngIf='this.authenticationService.currentUserValue'>
+                    <img src="\assets\img\dollar.png" height="40" width="40">
+                    {{ flight.prise }}
+                </li>
+                <li class="list-group-item" 
+                        data-toggle="tooltip" 
+                        data-placement="right" title="free seats">
+                    <div>
+                        <img src="\assets\img\chair.png" height="40" width="40" style="float: left;">
+                        <div *ngFor="let countFreeSeats of createRange(flight.allSeatsForThisFlight)">
+                            {{countFreeSeats}}
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div *ngIf='this.authenticationService.currentUserValue'>
+                        <button *ngIf='flight.numOfFastReseravtions>0'
+                                type="button" class="btn btn-success" 
+                                data-toggle="tooltip" 
+                                data-placement="right" title="quick reservation"
+                                routerLink="/flights/{{flight.id}}/fastReservaion"
+                                style="width: 50%; height: 60px;">
+                            FAST RESERVATION
+                        </button>
+                        <button type="button" class="btn btn-info"
+                                style="float: right;" 
+                                data-toggle="tooltip" 
+                                data-placement="right" title="see details"
+                                routerLink="/flights/{{flight.id}}/flightdetails"
+                                style="width: 50%; height: 60px;">
+                            DETAILS/BOOK 
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- ! MOGU DA KREIRAM NOVI LET, SAMO AKO IMAM KOMPANIJU -->
+    <div *ngIf='this.authenticationService.currentUserValue && !error'>
+        <div class="border-success col-sm-3" style="margin-bottom: 30px; "
+            *ngIf='currentUser.serviceId != 0 && currentUser.role == 2'>
+            <a style="cursor: pointer;" routerLink="/createFlight/0">
+                <img id="myimgborder" src="\assets\img\add.png" class="card-img-top" alt="add new flight">
+            </a>
+        </div>
+    </div>
+    
+
+    </div>
+</div>

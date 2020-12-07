@@ -1,0 +1,56 @@
+<div class="container down">
+    <div class="media">
+        <img src={{currentUser.profileImage}} style="width: 100px;" class="mr-4" alt="">
+        <div class="media-body">
+            <h3 class="mt-0" >{{currentUser.firstName}} {{currentUser.lastName}}
+                (<span *ngIf="currentUser.role == 1">admin</span>
+                <span *ngIf="currentUser.role == 2">flight admin</span>
+                <span *ngIf="currentUser.role == 1">rent a car admin</span>
+                <span *ngIf="currentUser.role == 1">user</span>)
+            </h3>
+
+            <div class="container">
+                <label for="email">Email</label>
+                <p class="ml-3" id="email">{{currentUser.email}}</p> 
+            </div>
+            
+            <div class="container">
+                <label for="passport">Passport</label>
+                <p class="ml-3" id="passport">{{currentUser.passportHash}}</p>
+            </div>
+
+            <div class="container">
+                <label for="phoneNumber">Phone number</label>
+                <p class="ml-3" id="phoneNumber">{{currentUser.phoneNumber}}</p>
+            </div>
+
+            <div class="container">
+                <label for="address">Address</label>
+                <p class="ml-3">{{streetAndNumber}}</p> 
+                <p class="ml-3">{{city}}</p>
+                <p class="ml-3">{{country}}</p>
+            </div>
+
+            <div class="container">
+                <p style="cursor: pointer;" 
+                        routerLink="/friends" >
+                    <u>Friends</u>
+                </p>
+            </div>
+
+            <div class="container">
+                <p style="cursor: pointer;"
+                        routerLink="/messages">
+                    <u>Messages</u>
+                </p>
+            </div>
+
+            <div class="container">
+                <p style="cursor: pointer;"
+                        routerLink="/change-profile/{{currentUser.id}}">
+                    <b><u>Change</u></b>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

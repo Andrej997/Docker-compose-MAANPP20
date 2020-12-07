@@ -1,0 +1,13 @@
+#myimgborder {
+    border: 1px solid green;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
+}
+.down {
+    margin-top: 60px;
+    z-index: 6;
+}
+a {
+    cursor: pointer;
+}

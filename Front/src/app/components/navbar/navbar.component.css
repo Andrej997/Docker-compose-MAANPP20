@@ -1,0 +1,44 @@
+/* Navbar */
+.navbar{
+    width: 100%; /* Full width */
+    position: fixed;
+    top: 0em;
+    z-index: 10;
+    overflow-x: hidden; 
+  /* height: 65px;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 60px;
+    left: 2px;
+    right: 2px;
+    background: rgb(151, 151, 151);
+    overflow-x: hidden;
+    padding: 8px 0; */
+}
+.navbar-default {
+    background-color: #6699ff;
+    border-color: #E7E7E7;
+    /* top: 0;
+    width: 100%; 
+    overflow: hidden; *//*nece govno da fiksira navbar xddd*/
+}
+
+
+/* Title */
+.navbar-default .navbar-brand {
+    color: rgb(255, 255, 255);
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: rgb(0, 0, 0);
+}
+
+/* Link */
+.navbar-default .navbar-nav > li > a {
+    color: rgb(255, 255, 255);
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: rgb(0, 0, 0);
+}

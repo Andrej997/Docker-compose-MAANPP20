@@ -1,0 +1,292 @@
+<app-my-spinner *ngIf="loading"></app-my-spinner>
+
+<div class="container down" *ngIf="!flightCompany">
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+        <b>{{errorText}}</b>
+    </div>
+</div>
+<div class="container down" *ngIf="noCompany">
+    <div class="alert alert-info" role="alert">
+        You don't have any company, click <b><a routerLink="/createAvioCompany"><u>here</u></a></b> to create one!
+    </div>
+</div>
+<div class="container-fluid down" *ngIf="flightCompany && !loading"> <!-- ako postoji -->
+    <div class="alert alert-success" role="alert" *ngIf="deleted">
+        <b>You have successfully deleted this company!</b>
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+        <b>Error occured while deleting!</b>
+    </div>
+
+    <div class="alert alert-warning" role="alert" *ngIf="change">
+        Changes have been made, please refresh page or click <a style="cursor: pointer;" (click)="refreshPage()"><b>here</b></a>!
+    </div>
+
+    <div class="card mb-3" style="max-width: 100%;">
+        <div class="card-header mb-3">
+            <h1 style="float: left;">{{flightCompany.name}}</h1>
+            <div class="profile-stars">
+                <!-- START NO 1-->
+                <div *ngIf="ocena < 0.5; then thenBlock1 else elseBlock1"></div>
+                <ng-template #thenBlock1><img src="\assets\img\blank-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                <ng-template #elseBlock1>
+                    <div *ngIf="ocena < 1; then thenBlock11 else elseBlock11"></div>
+                    <ng-template #thenBlock11><img src="\assets\img\half-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                    <ng-template #elseBlock11><img src="\assets\img\star.png" style="width: 30px; height: 30px;"/></ng-template>
+                </ng-template>
+                <!-- START NO 2-->
+                <div *ngIf="ocena < 1.5; then thenBlock2 else elseBlock2"></div>
+                <ng-template #thenBlock2><img src="\assets\img\blank-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                <ng-template #elseBlock2>
+                    <div *ngIf="ocena < 2; then thenBlock22 else elseBlock22"></div>
+                    <ng-template #thenBlock22><img src="\assets\img\half-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                    <ng-template #elseBlock22><img src="\assets\img\star.png" style="width: 30px; height: 30px;"/></ng-template>
+                </ng-template>
+                <!-- START NO 3-->
+                <div *ngIf="ocena < 2.5; then thenBlock3 else elseBlock3"></div>
+                <ng-template #thenBlock3><img src="\assets\img\blank-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                <ng-template #elseBlock3>
+                    <div *ngIf="ocena < 3; then thenBlock33 else elseBlock33"></div>
+                    <ng-template #thenBlock33><img src="\assets\img\half-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                    <ng-template #elseBlock33><img src="\assets\img\star.png" style="width: 30px; height: 30px;"/></ng-template>
+                </ng-template>
+                <!-- START NO 4-->
+                <div *ngIf="ocena < 3.5; then thenBlock4 else elseBlock4"></div>
+                <ng-template #thenBlock4><img src="\assets\img\blank-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                <ng-template #elseBlock4>
+                    <div *ngIf="ocena < 4; then thenBlock44 else elseBlock44"></div>
+                    <ng-template #thenBlock44><img src="\assets\img\half-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                    <ng-template #elseBlock44><img src="\assets\img\star.png" style="width: 30px; height: 30px;"/></ng-template>
+                </ng-template>
+                <!-- START NO 5-->
+                <div *ngIf="ocena < 4.5; then thenBlock5 else elseBlock5"></div>
+                <ng-template #thenBlock5><img src="\assets\img\blank-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                <ng-template #elseBlock5>
+                    <div *ngIf="ocena < 5; then thenBlock55 else elseBlock55"></div>
+                    <ng-template #thenBlock55><img src="\assets\img\half-star.png" style="width: 30px; height: 30px;"/></ng-template>
+                    <ng-template #elseBlock55><img src="\assets\img\star.png" style="width: 30px; height: 30px;"/></ng-template>
+                </ng-template>
+            </div>
+            <div *ngIf='this.authenticationService.currentUserValue'>
+                <span style="float: right;" *ngIf="currentUser.role == 1 || currentUser.role == 2" class="ml-3">
+                    <!--button type="button" *ngIf="!hideShowBTN"
+                            class="btn btn-danger ml-3" (click)="hideShow()">
+                        DELETE
+                    </!--button-->
+                    <a style="cursor: pointer;" *ngIf="!hideShowBTN && isMyCompany">
+                        <img id="myimgborder" src="\assets\img\delete.png" (click)="hideShow()"
+                            class="card-img-top" alt="add new flight" style="width: 60px;">
+                    </a>
+                </span>
+                <span style="float: right;" *ngIf="currentUser.role == 1 || currentUser.role == 2">
+                    <!--button type="button" *ngIf="!hideShowBTN"
+                            class="btn btn-warning" routerLink="/createAvioCompany/{{flightCompany.id}}">
+                        CHANGE
+                    </!--button-->
+                    <a style="cursor: pointer;" *ngIf="!hideShowBTN && isMyCompany" routerLink="/createAvioCompany/{{flightCompany.id}}">
+                        <img id="myimgborder" src="\assets\img\change.png" 
+                            class="card-img-top" alt="add new flight" style="width: 60px;">
+                    </a>
+                </span>
+
+                <span style="float: right;" *ngIf="currentUser.role == 1 || currentUser.role == 2" class="ml-3">
+                    <!--button-- type="button" *ngIf="hideShowBTN"
+                            class="btn btn-secondary ml-3" (click)="hideShow()">
+                        NO
+                    </!--button-->
+                    <a style="cursor: pointer;" *ngIf="hideShowBTN && isMyCompany" (click)="hideShow()">
+                        <img id="myimgborder" src="\assets\img\cancel.png" 
+                            class="card-img-top" alt="add new flight" style="width: 60px;">
+                    </a>
+                </span>
+                <span style="float: right;" *ngIf="currentUser.role == 1 || currentUser.role == 2">
+                    <!--button type="button" *ngIf="hideShowBTN"
+                            class="btn btn-danger" (click)="deleteEntity()">
+                        YES
+                    </!--button-->
+                    <a style="cursor: pointer;" *ngIf="hideShowBTN && isMyCompany" (click)="deleteEntity()">
+                        <img id="myimgborder" src="\assets\img\accept.png" 
+                            class="card-img-top" alt="add new flight" style="width: 60px;">
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src={{flightCompany.logo}} class="card-img" alt="...">
+                <h5 class="card-text">{{flightCompany.address.streetAndNumber}},</h5>
+                <h5 class="card-text">{{flightCompany.address.city}},</h5>
+                <h5 class="card-text">{{flightCompany.address.country}}</h5>
+                <div>
+                    <app-leaflet-map></app-leaflet-map>
+                </div>
+            </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <div>
+                    <h2><i>"{{flightCompany.promotionalDesc}}"</i></h2>
+                </div>
+                <div>
+                    <h4 data-toggle="collapse" href="#collapseExample1" style="cursor: pointer;">Destination</h4>
+                    <div class="collapse" id="collapseExample1">
+                        <ul class="list-group" *ngFor="let desAddr of flightCompany.destinations">
+                            <li class="list-group-item">
+                                {{desAddr.startAddress.city}} - {{desAddr.startAddress.country}} -> {{desAddr.endAddress.city}} - {{desAddr.endAddress.country}}
+                                <div *ngIf='this.authenticationService.currentUserValue'>
+                                    <span style="float: right;" *ngIf="isMyCompany">
+                                        <a style="cursor: pointer;">
+                                            <img id={{desAddr.id}} src="\assets\img\delete.png" (click)="deleteFlightDestination($event)"
+                                                class="card-img-top" alt="add new flight" style="width: 50px;">
+                                        </a>
+                                    </span>
+                                    <span style="float: right;" *ngIf="isMyCompany">
+                                        <a style="cursor: pointer;" routerLink="/createFlightDestinaion/{{flightCompany.id}}/{{desAddr.id}}">
+                                            <img id="myimgborder1" src="\assets\img\change.png" 
+                                                class="card-img-top" alt="add new flight" style="width: 50px;">
+                                        </a>
+                                    </span>
+                                </div>
+                                
+                            </li>
+                        </ul>
+                        <div *ngIf='this.authenticationService.currentUserValue'>
+                            <div class="border-success col-sm-3" style="margin-bottom: 30px; "
+                                *ngIf='isMyCompany'>
+                                <a style="cursor: pointer;" routerLink="/createFlightDestinaion/{{flightCompany.id}}">
+                                    <img id="myimgborder2" src="\assets\img\add.png" 
+                                        class="card-img-top" alt="add new flight" style="width: 100px;">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 data-toggle="collapse" href="#collapseExample2" style="cursor: pointer;">Flights</h4>
+                    <div class="collapse" id="collapseExample2">
+                        <div class="alert alert-info" data-toggle="collapse" href="#collapseExample3" role="alert">
+                            Click <u style="cursor: pointer;"><b>here</b></u> to show/hide flights details!
+                        </div>
+                        <div class="row card-group" >
+                            <div class="col-sm-5" *ngFor="let flight of flightCompany.flights">
+                                <div class="card" style="margin-bottom: 30px;">
+                                    <img [src]="flight.destImg" class="card-img-top" alt="...">
+                                    <div class="collapse" id="collapseExample3">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" data-toggle="tooltip" 
+                                                    data-placement="right" title="from">
+                                                <img src="\assets\img\destination.jpg" height="40" width="40">
+                                                {{ flight.from.city }}, {{ flight.from.country }}  
+                                            </li>
+                                            <li class="list-group-item" data-toggle="tooltip" 
+                                                    data-placement="right" title="flight date">
+                                                <img src="\assets\img\calendar.png" height="40" width="40">
+                                                {{ flight.datumPolaska }}</li>
+                                            <li class="list-group-item" data-toggle="tooltip" 
+                                                    data-placement="right" title="to">
+                                                <img src="\assets\img\destination.jpg" height="40" width="40">
+                                                {{ flight.to.city }}, {{ flight.to.country }}
+                                            </li>
+                                            <li class="list-group-item" data-toggle="tooltip" 
+                                                    data-placement="right" title="landing date">
+                                                <img src="\assets\img\calendar.png" height="40" width="40">
+                                                {{ flight.datumSletanja }}</li>
+                                            <li class="list-group-item" 
+                                                    data-toggle="tooltip" 
+                                                    data-placement="right" title="prise">
+                                                <img src="\assets\img\dollar.png" height="40" width="40">
+                                                {{ flight.prise }}</li>
+                                            <li class="list-group-item" 
+                                                    data-toggle="tooltip" 
+                                                    data-placement="right" title="flight time">
+                                                <img src="\assets\img\time.png" height="40" width="40">
+                                                {{ flight.vremePutovanja }}</li>
+                                            <li class="list-group-item" 
+                                                    data-toggle="tooltip" 
+                                                    data-placement="right" title="km">
+                                                <img src="\assets\img\kilometers.png" height="40" width="40">
+                                                {{ flight.duzinaPutovanja }}</li>
+                                            <!-- <li class="list-group-item" 
+                                                    data-toggle="tooltip" 
+                                                    data-placement="right" title="changeover">
+                                                <img src="\assets\img\path.png" height="40" width="40">
+                                                <div style="float: right;" class="list-group list-group-flush" *ngFor="let p of flight.presedanje.gradoviPresedanja">
+                                                    <span>-{{p}}-</span>
+                                                </div>
+                                            </li> -->
+                                            <!-- <li class="list-group-item" 
+                                                    data-toggle="tooltip" 
+                                                    data-placement="right" title="free seats">
+                                                <div>
+                                                    <img src="\assets\img\chair.png" height="40" width="40" style="float: left;">
+                                                    <div *ngFor="let countFreeSeats of createRange(flight.allSeatsForThisFlight)">
+                                                        {{countFreeSeats}}
+                                                    </div>
+                                                </div>
+                                            </li> -->
+                                            <li class="list-group-item">
+                                                <div *ngIf='this.authenticationService.currentUserValue'>
+                                                    <button *ngIf='flight.numOfFastReseravtions>0'
+                                                            type="button" class="btn btn-success" 
+                                                            data-toggle="tooltip" 
+                                                            data-placement="right" title="quick reservation"
+                                                            routerLink="/flights/{{flight.id}}/fastReservaion"
+                                                            style="width: 50%; height: 60px;">
+                                                        FAST RESERVATION
+                                                    </button>
+                                                    <button type="button" class="btn btn-info"
+                                                            style="float: right;" 
+                                                            data-toggle="tooltip" 
+                                                            data-placement="right" title="see details"
+                                                            routerLink="/flights/{{flight.id}}/flightdetails"
+                                                            style="width: 50%; height: 60px;">
+                                                        DETAILS/BOOK 
+                                                    </button>
+                                                </div>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <div *ngIf='this.authenticationService.currentUserValue'>
+                                                    <span style="float: right;" *ngIf="isMyCompany">
+                                                        <a style="cursor: pointer;">
+                                                            <img id={{flight.id}} src="\assets\img\delete.png" (click)="deleteFlight($event)"
+                                                                class="card-img-top" alt="add new flight" style="width: 50px;">
+                                                        </a>
+                                                    </span>
+                                                    <span style="float: left;" *ngIf="isMyCompany">
+                                                        <a style="cursor: pointer;" routerLink="/changeFlight/{{flight.id}}">
+                                                            <img id="myimgborder11" src="\assets\img\change.png" 
+                                                                class="card-img-top" alt="add new flight" style="width: 50px;">
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf='this.authenticationService.currentUserValue'>
+                                <div class="border-success col-sm-3" style="margin-bottom: 30px; "
+                                    *ngIf='isMyCompany'>
+                                    <a style="cursor: pointer;" routerLink="/createFlight/{{flightCompany.id}}">
+                                        <img id="myimgborder" src="\assets\img\add.png" 
+                                            class="card-img-top" alt="add new flight" style="width: 100px;">
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- <div>
+                    <h4 data-toggle="collapse" href="#collapseExampleMap" style="cursor: pointer;">Map</h4>
+                    <div class="collapse" id="collapseExampleMap">
+                        <app-leaflet-map></app-leaflet-map>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- <app-leaflet-map></app-leaflet-map> -->
+</div>
