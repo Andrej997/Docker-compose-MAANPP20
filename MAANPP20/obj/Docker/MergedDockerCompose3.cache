@@ -1,0 +1,49 @@
+services:
+  aviomicroservice:
+    build:
+      context: C:\Users\andre\Desktop\PROJECT\MAANPP20
+      dockerfile: AvioMicroservice/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: AvioMicroservice
+      target: base
+    container_name: AvioMicroservice
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages;/root/.nuget/fallbackpackages2
+    image: aviomicroservice:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages --additionalProbingPath
+        /root/.nuget/fallbackpackages2  "/app/bin/Debug/netcoreapp3.1/AvioMicroservice.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    - target: 443
+    tty: true
+    volumes:
+    - C:\Users\andre\Desktop\PROJECT\MAANPP20\AvioMicroservice:/app:rw
+    - C:\Users\andre\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\andre\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\andre\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Microsoft\Xamarin\NuGet:/root/.nuget/fallbackpackages:ro
+    - C:\Program Files\dotnet\sdk\NuGetFallbackFolder:/root/.nuget/fallbackpackages2:ro
+    - C:\Users\andre\.nuget\packages:/root/.nuget/packages:ro
+    - C:\Users\andre\Desktop\PROJECT\MAANPP20:/src:rw
+  ms-sql-server:
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Express
+      SA_PASSWORD: Password1!
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    ports:
+    - published: 1433
+      target: 1433
+version: '3.4'
